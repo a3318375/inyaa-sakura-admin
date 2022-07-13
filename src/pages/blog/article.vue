@@ -1,5 +1,5 @@
 <script setup>
-const visibleColumns = ref(['calories', 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'])
+const visibleColumns = ref(['calories', 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron','test'])
 const columns = [
   {
     name: 'desc',

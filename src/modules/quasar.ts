@@ -2,8 +2,9 @@
 import '@quasar/extras/material-icons/material-icons.css'
 // Import Quasar css
 import 'quasar/src/css/index.sass'
-
 import { LocalStorage, Notify, Quasar } from 'quasar'
+import Plugin from '@quasar/quasar-ui-qmarkdown'
+import '@quasar/quasar-ui-qmarkdown/dist/index.css'
 import { type UserModule } from '~/types'
 
 const config = {
@@ -24,4 +25,5 @@ const config = {
 
 export const install: UserModule = ({ app }) => {
   app.use(Quasar, config)
+  app.use(Plugin)
 }

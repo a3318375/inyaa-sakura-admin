@@ -1,4 +1,4 @@
-import { api } from 'src/modules/axios'
+import { api } from '~/modules/axios'
 
 export const userApi = {
   get: (id: number) => api.get(`/api/users/${id}`),

@@ -1,7 +1,10 @@
 <script setup>
-import generatedRoutes from '~pages'
+import { useMenuStore } from '~/store/menu'
+import { initSys } from '~/api/sys'
 const left = ref(false)
 const router = useRouter()
+const { menuList } = useMenuStore()
+initSys()
 </script>
 
 <template>
@@ -19,14 +22,31 @@ const router = useRouter()
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="left" show-if-above side="left" :width="200">
-      <q-list>
-        <template v-for="(item, index) in generatedRoutes">
+    <q-drawer v-model="left" show-if-above side="left" :width="210">
+      <q-list v-for="(item, index) in menuList">
+        <template v-if="item.type === 1">
           <q-item v-if="item.name !== 'index'" :key="index" clickable class="flex-col">
             <q-item-section class="cursor-pointer" @click="router.push({ path: item.path })">
               {{ item.name }}
             </q-item-section>
           </q-item>
+        </template>
+        <template v-if="item.type === 0">
+          <q-expansion-item
+            v-if="item.name !== 'index'"
+            :key="index"
+            expand-separator
+            icon="perm_identity"
+            :label="item.name"
+          >
+            <template v-if="item.children">
+              <q-item v-for="(child, childIndex) in item.children" :key="childIndex" clickable class="flex-col">
+                <q-item-section class="cursor-pointer" @click="router.push({ path: child.path })">
+                  {{ child.name }}
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-expansion-item>
         </template>
       </q-list>
     </q-drawer>
