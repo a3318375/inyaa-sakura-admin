@@ -9,6 +9,5 @@ export const sysApi = {
 export const initSys = async () => {
   const { setMenuList } = useMenuStore()
   const menuList = await sysApi.findMenuList()
-  console.log(1111, menuList.data)
   setMenuList(menuList.data as MenuListType[])
 }

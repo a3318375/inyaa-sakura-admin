@@ -7,11 +7,16 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ArticleDel: typeof import('./components/ArticleDel.vue')['default']
     ArticleEdit: typeof import('./components/ArticleEdit.vue')['default']
+    BaseContent: typeof import('./components/BaseContent.vue')['default']
+    BaseMenu: typeof import('./components/BaseMenu.vue')['default']
+    Breadcrumbs: typeof import('./components/Breadcrumbs.vue')['default']
     Counter: typeof import('./components/Counter.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
     README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TagView: typeof import('./components/TagView.vue')['default']
+    ToolBarRight: typeof import('./components/ToolBarRight.vue')['default']
   }
 }
 

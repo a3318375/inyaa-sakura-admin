@@ -25,5 +25,6 @@ const config = {
 
 export const install: UserModule = ({ app }) => {
   app.use(Quasar, config)
+  // @ts-ignore
   app.use(Plugin)
 }

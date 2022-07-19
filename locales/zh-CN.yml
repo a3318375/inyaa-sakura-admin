@@ -12,3 +12,30 @@ intro:
   aka: 也叫
   whats-your-name: 输入你的名字
 not-found: 未找到页面
+Analysis:
+  views: 访问量
+  day: 日
+  yearOnYear: 日同比
+  weekday: 周同比
+  totalVisitor: 总访问量
+  sales: 销售额
+  month: 月
+  totalSales: 总销售额
+  orderQuantity: 订单量
+  week: 周
+  conversionRate: 转化率
+  newUsers: 新增用户
+  position: 位
+  totalUser: 总用户
+  currentWeek: 当周
+  currentMonth: 当月
+  currentYear: 当年
+  visitTrend: 访问量趋势
+  visitRanking: 访问量排行
+  popularSearches: 热门搜索
+  searchTheNumberOfUsers: 搜索用户数
+  perCapitaSearch: 人均搜索次数
+  userPortrait: 用户画像
+  male: 男性
+  female: 女性
+  unknown: 未知

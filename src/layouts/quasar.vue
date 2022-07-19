@@ -1,63 +1,57 @@
 <script setup>
-import { useMenuStore } from '~/store/menu'
 import { initSys } from '~/api/sys'
+const { tagList } = useTagStore()
 const left = ref(false)
 const router = useRouter()
-const { menuList } = useMenuStore()
 initSys()
 </script>
 
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header elevated class="bg-primary text-white">
-      <q-toolbar>
-        <q-btn dense flat round icon="menu" @click="left = !left" />
-
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-          </q-avatar>
-          Title
-        </q-toolbar-title>
+    <q-header
+      class="q-py-xs bg-white text-grey-8" height-hint="48"
+      style="box-shadow: rgba(0, 0, 0, 0.1) 0 2px 12px 0; padding-bottom: 2px;"
+    >
+      <q-toolbar style="margin-top: -4px;">
+        <q-btn flat dense round aria-label="Menu" :icon="left === true ? 'menu_open' : 'menu'" @click="left = !left" />
+        <q-btn v-if="$q.screen.gt.xs" flat no-caps no-wrap class="q-ml-xs">
+          <q-toolbar-title shrink class="text-weight-bold">
+            Title
+          </q-toolbar-title>
+        </q-btn>
+        <!-- 面包屑 -->
+        <Breadcrumbs v-if="$q.screen.gt.sm" />
+        <q-space/>
+        <!-- 右侧元素 -->
+        <ToolBarRight />
       </q-toolbar>
+      <q-separator color="grey-3" />
+      <TagView />
     </q-header>
-
-    <q-drawer v-model="left" show-if-above side="left" :width="210">
-      <q-list v-for="(item, index) in menuList">
-        <template v-if="item.type === 1">
-          <q-item v-if="item.name !== 'index'" :key="index" clickable class="flex-col">
-            <q-item-section class="cursor-pointer" @click="router.push({ path: item.path })">
-              {{ item.name }}
-            </q-item-section>
-          </q-item>
-        </template>
-        <template v-if="item.type === 0">
-          <q-expansion-item
-            v-if="item.name !== 'index'"
-            :key="index"
-            expand-separator
-            icon="perm_identity"
-            :label="item.name"
-          >
-            <template v-if="item.children">
-              <q-item v-for="(child, childIndex) in item.children" :key="childIndex" clickable class="flex-col">
-                <q-item-section class="cursor-pointer" @click="router.push({ path: child.path })">
-                  {{ child.name }}
-                </q-item-section>
-              </q-item>
-            </template>
-          </q-expansion-item>
-        </template>
-      </q-list>
+    <q-drawer
+      v-model="left"
+      show-if-above
+      content-class="bg-white"
+      :width="240"
+    >
+      <template #default>
+        <BaseMenu />
+      </template>
     </q-drawer>
-
-    <q-page-container>
-      <RouterView />
+    <q-page-container class="app-main full-height">
+      <RouterView v-slot="{ Component }">
+        <transition>
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </transition>
+      </RouterView>
     </q-page-container>
   </q-layout>
 </template>
 
 <style lang="scss">
+  @import '../styles/transition.scss';
   .slide-fade-enter {
     transform: translateX(10px);
     opacity: 0;

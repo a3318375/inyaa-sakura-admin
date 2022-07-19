@@ -16,7 +16,6 @@ if (code) {
     router.push('/')
 
   const menuList = await sysApi.findMenuList()
-  console.log(1111, menuList.data)
   setMenuList(menuList.data as MenuListType[])
 }
 </script>
