@@ -1,6 +1,7 @@
 <script setup>
 import { useTagStore } from '~/store/tag'
 const { tagList, removeTagView } = useTagStore()
+const router = useRouter()
 
 function isWeChart() {
   return navigator.userAgent.toLowerCase().includes('micromessenger')
@@ -10,20 +11,31 @@ function removeAllTagView() {
   removeTagView()
 }
 
+function toJump() {
+  if (tagList.length === 0)
+    router.push('/')
+  else
+    router.push(tagList[0].fullPath)
+}
+
 function removeAtagView(i) {
   removeTagView(i)
+  toJump()
 }
 
 function removeLeftTagView(i) {
   removeTagView({ side: 'left', index: i })
+  toJump()
 }
 
 function removeRightTagView(i) {
   removeTagView({ side: 'right', index: i })
+  toJump()
 }
 
 function removeOthersTagView(i) {
   removeTagView({ side: 'others', index: i })
+  toJump()
 }
 function navDelay(v) {
 }
@@ -69,7 +81,7 @@ function navDelay(v) {
           <template #default>
             <q-icon v-if="v.icon" size="1.3rem" :name="v.icon" />
             <div class="line-limit-length">
-              {{ v.name }}
+              {{ v.title }}
             </div>
             <q-icon
               class="tagView-remove-icon" style="display: inline-flex" name="close"
@@ -108,3 +120,37 @@ function navDelay(v) {
     </q-tabs>
   </div>
 </template>
+
+<style lang="css" scoped>
+.tagView {
+    margin: 1.5px 3px 0 3px;
+    min-height: 20px;
+    padding: 0 8px;
+    background: white;
+    transition: all .5s;
+    border-radius: 0;
+    height: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tagView-remove-icon {
+    font-size: 1.0rem;
+    border-radius: .2rem;
+    opacity: 0.58;
+    transition: all .3s;
+  }
+
+  .tagView-remove-icon:hover {
+    opacity: 1;
+  }
+
+  .line-limit-length {
+    margin: 0px 5px 0px 7px;
+    overflow: hidden;
+    max-width: 180px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+</style>

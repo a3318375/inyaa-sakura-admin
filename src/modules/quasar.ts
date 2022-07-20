@@ -2,29 +2,22 @@
 import '@quasar/extras/material-icons/material-icons.css'
 // Import Quasar css
 import 'quasar/src/css/index.sass'
-import { LocalStorage, Notify, Quasar } from 'quasar'
+import { LoadingBar, LocalStorage, Notify, Quasar } from 'quasar'
 import Plugin from '@quasar/quasar-ui-qmarkdown'
 import '@quasar/quasar-ui-qmarkdown/dist/index.css'
-import { type UserModule } from '~/types'
 
 const config = {
-  plugins: { Notify, LocalStorage }, // import Quasar plugins and add here
-  /*
+  plugins: { Notify, LocalStorage, LoadingBar }, // import Quasar plugins and add here
   config: {
-    brand: {
-      // primary: '#e46262',
-      // ... or all other brand colors
+    loadingBar: {
+      color: 'light-blue-4',
+      size: '4px',
+      position: 'top',
     },
-    notify: {...}, // default set of options for Notify Quasar plugin
-    loading: {...}, // default set of options for Loading Quasar plugin
-    loadingBar: { ... }, // settings for LoadingBar Quasar plugin
-    // ..and many more (check Installation card on each Quasar component/directive/plugin)
-  }
-  */
+  },
 }
 
-export const install: UserModule = ({ app }) => {
+export const install = (app: any) => {
   app.use(Quasar, config)
-  // @ts-ignore
   app.use(Plugin)
 }

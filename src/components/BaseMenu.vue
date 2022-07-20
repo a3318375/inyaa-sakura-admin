@@ -10,18 +10,11 @@ const thumbStyleOfMenu = {
   margin: '10px;',
   width: '3px',
 }
-console.log(333333, menuList)
 function isWeChart() {
   return navigator.userAgent.toLowerCase().includes('micromessenger')
 }
-function addTagView(path, name) {
+function toJumpNewPage(path) {
   nowPath.value = path
-  if (!tagList.includes(path)) {
-    tagList.push({
-      fullPath: path,
-      name,
-    })
-  }
   router.push(path)
 }
 </script>
@@ -42,7 +35,7 @@ function addTagView(path, name) {
             class="bg-white-1 base-menu-item"
             :style="isWeChart ? ' line-height: normal' : ''"
             active-class="baseItemActive"
-            @click="addTagView(item.path, item.name)"
+            @click="toJumpNewPage(item.path)"
           >
             <q-item-section avatar>
               <q-icon :name="item.icon" />
@@ -55,7 +48,6 @@ function addTagView(path, name) {
           <!-- 有孩子 -->
           <q-expansion-item
             v-else
-            duration="300"
             :class="router === nowPath ? 'baseRootItemActive bg-white-2 base-menu-item' : 'bg-white-2 base-menu-item'"
             :icon="item.icon"
             :label="item.name"
@@ -71,7 +63,7 @@ function addTagView(path, name) {
                 class="bg-white-1 base-menu-item"
                 :style="isWeChart ? ' line-height: normal' : ''"
                 active-class="baseItemActive"
-                @click="addTagView(child.path, child.name)"
+                @click="toJumpNewPage(child.path)"
               >
                 <q-item-section avatar>
                   <q-icon :name="child.icon" />

@@ -8,4 +8,6 @@
 <route lang="yaml">
 meta:
   layout: quasar
+  title: 博客分类
+  keepAlive: true
 </route>

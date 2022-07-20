@@ -10,7 +10,7 @@ async function toDel() {
 
 <template>
   <div>
-    <q-btn flat icon="delete" @click="confirm = true" />
+    <q-btn flat icon="delete" color="primary" @click="confirm = true" />
     <q-dialog v-model="confirm" persistent>
       <q-card>
         <q-card-section class="row items-center">

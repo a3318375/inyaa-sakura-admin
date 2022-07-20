@@ -1,6 +1,7 @@
 <script setup>
 import { initSys } from '~/api/sys'
 const { tagList } = useTagStore()
+const { keepAliveList } = useKeepAliveStore()
 const left = ref(false)
 const router = useRouter()
 initSys()
@@ -40,8 +41,8 @@ initSys()
     </q-drawer>
     <q-page-container class="app-main full-height">
       <RouterView v-slot="{ Component }">
-        <transition>
-          <keep-alive>
+        <transition mode="out-in">
+          <keep-alive :include="keepAliveList">
             <component :is="Component" />
           </keep-alive>
         </transition>

@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
-const router = useRouter()
+import type { RouteLocationNormalized, RouteRecordName } from 'vue-router'
 
 export interface TagListType {
   fullPath: string
-  name?: string
-  title?: string
-  icon?: string
-  keepAlive?: boolean
+  name?: RouteRecordName | unknown
+  title?: string | unknown
+  icon?: string | unknown
+  keepAlive?: boolean | unknown
 }
 
 export const useTagStore = defineStore('tag', () => {
@@ -49,25 +49,25 @@ export const useTagStore = defineStore('tag', () => {
     switch (params.side) {
       case 'right':
         tagList = tagList.slice(0, params.index + 1)
-        if (tagList.length === 1)
-          router.push(tagList[0].fullPath)
-
-        if (tagList.length === params.index + 1)
-          router.push(tagList[params.index].fullPath)
+        // if (tagList.length === 1)
+        //   router.push(tagList[0].fullPath)
+        //
+        // if (tagList.length === params.index + 1)
+        //   router.push(tagList[params.index].fullPath)
 
         break
       case 'left':
         tagList = tagList.slice(params.index, tagList.length)
-        if (tagList.length === 1)
-          router.push(tagList[0].fullPath)
-
-        if (tagList.length <= params.index)
-          router.push(tagList[0].fullPath)
+        // if (tagList.length === 1)
+        //   router.push(tagList[0].fullPath)
+        //
+        // if (tagList.length <= params.index)
+        //   router.push(tagList[0].fullPath)
 
         break
       case 'others':
         tagList = tagList.splice(params.index, 1)
-        router.push(tagList[0].fullPath)
+        // router.push(tagList[0].fullPath)
         break
       default:
         break
@@ -75,34 +75,24 @@ export const useTagStore = defineStore('tag', () => {
   }
 
   function removeATagView(params: number) {
-    // 记录被移除的路由
-    const removedTagView = tagList[params].fullPath
     tagList.splice(params, 1)
     // 如果移除后， tagView 为空
-    if (tagList.length === 0) {
+    if (tagList.length === 0)
       window.sessionStorage.setItem('tagView', '[]')
-      router.push('/')
-    }
-    else {
-      // 如果移除的是最后一个 tagView 则路由跳转移除后的最后一个 tagView
-      if (params === tagList.length && window.location.href.includes(removedTagView)) {
-        router.push(tagList[params - 1].fullPath)
-        return
-      }
-      // 如果移除的是第一个 tagView 则路由跳转移除后的第一个 tagView
-      if (params === 0 && window.location.href.includes(removedTagView)) {
-        router.push(tagList[0].fullPath)
-        return
-      }
-      if (window.location.href.includes(removedTagView))
-        router.push(tagList[params - 1].fullPath)
-    }
   }
-  function addTagView(params: any) {
+
+  function addTagView(to: RouteLocationNormalized) {
+    const tagObj = {
+      fullPath: to.fullPath,
+      name: to.name,
+      title: to.meta.title,
+      icon: to.meta.icon,
+      keepAlive: to.meta.keepAlive || false,
+    }
     const size = tagList.length
     // 首次进入或刷新页面时，当前路由不是根路由
-    if (!size && params.fullPath !== '/') {
-      tagList.push(params)
+    if (!size && tagObj.fullPath !== '/') {
+      tagList.push(tagObj)
       return
     }
     // 为了避免 tagView 重复添加。 构建一个以 fullPath 为标识的数组 t[]
@@ -110,8 +100,8 @@ export const useTagStore = defineStore('tag', () => {
     for (let i = 0; i < size; i++)
       t.push(tagList[i].fullPath)
 
-    if (!t.includes(params.fullPath))
-      tagList.push(params)
+    if (!t.includes(tagObj.fullPath))
+      tagList.push(tagObj)
   }
 
   return {

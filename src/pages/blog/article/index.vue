@@ -1,6 +1,7 @@
 <script setup>
 import { columns, visibleColumns } from './article.data'
 import { blogApi } from '~/api/blog'
+const router = useRouter()
 const blogRow = ref([])
 const filter = ref('')
 const loading = ref(false)
@@ -51,6 +52,14 @@ function hide() {
 function doQuery() {
 }
 function resetQuery() {
+}
+
+function toUpdate(id) {
+  router.push(`/blog/article/${id}`)
+}
+
+function toCreate() {
+  router.push('/blog/article/0')
 }
 blogData()
 </script>
@@ -127,7 +136,7 @@ blogData()
           @request="onRequest"
         >
           <template #top-left>
-            <ArticleEdit />
+            <q-btn label="新建" color="primary" class="q-mr-sm no-border-radius" icon="add" unelevated @click="toCreate" />
           </template>
           <template #top-right="props">
             <div>
@@ -167,7 +176,7 @@ blogData()
           <template #body-cell-btn="props">
             <q-td :props="props">
               <div>
-                <ArticleEdit v-model:id="props.value" />
+                <q-btn v-close-popup flat icon="edit" color="primary" @click="toUpdate(props.value)" />
                 <ArticleDel v-model:id="props.value" />
               </div>
             </q-td>
@@ -181,4 +190,6 @@ blogData()
 <route lang="yaml">
 meta:
   layout: quasar
+  title: 博客列表
+  keepAlive: true
 </route>

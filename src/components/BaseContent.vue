@@ -25,7 +25,6 @@ onActivated(() => {
  * 此时 this.BasePath 作为 key ，将滚动位置保存的 sessionStorage 中
  */
 onDeactivated(() => {
-  console.log(112222222, scrollArea.value)
   // console.log(`切换（from）：${this.BasePath}`)
   window.sessionStorage.setItem(basePath.value, JSON.stringify({ listScrollTop: scrollArea.value.getScrollPosition() }))
 })
@@ -52,7 +51,8 @@ onMounted(() => {
   }
 })
 function scrollToPosition(listScrollTop) {
-  scrollArea.value.setScrollPosition('vertical', listScrollTop)
+  scrollArea.value.setScrollPosition('vertical', listScrollTop.top)
+  scrollArea.value.setScrollPosition('horizontal', listScrollTop.left)
 }
 
 function onScrollFirst({ verticalPosition }) {
@@ -64,9 +64,9 @@ function onScrollFirst({ verticalPosition }) {
   <div class="main-content">
     <q-scroll-area
       ref="scrollArea"
+      visible
       :thumb-style="thumbStyle"
-      :visible="false"
-      style="height: 100vh"
+      style="height: calc(100vh - 89px)"
       @scroll="onScrollFirst"
     >
       <slot />

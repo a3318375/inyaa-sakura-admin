@@ -16,6 +16,9 @@ const income = {
   yAxis: {
     type: 'value',
     show: false,
+    max(value: { max: number }) {
+      return value.max + 15
+    },
   },
   series: [{
     data: [10, 50, 36, 85, 98, 72, 79, 88, 80],
@@ -28,6 +31,9 @@ const income = {
       color: '#ffffff',
     },
   }],
+  tooltip: {
+    confine: true,
+  },
 }
 const expense = {
   xAxis: {
@@ -37,6 +43,9 @@ const expense = {
   yAxis: {
     type: 'value',
     show: false,
+    max(value: { max: number }) {
+      return value.max + 15
+    },
   },
   series: [{
     data: [50, 42, 36, 78, 56, 72, 20, 15, 35],
@@ -58,6 +67,9 @@ const total = {
   yAxis: {
     type: 'value',
     show: false,
+    max(value: { max: number }) {
+      return value.max + 15
+    },
   },
   series: [{
     data: [30, 45, 64, 78, 79, 80, 75, 70, 90],
@@ -309,6 +321,109 @@ padding[2]的10:
     },
   ],
 }
+const pieColorList = [{
+  type: 'linear',
+  x: 0,
+  y: 0,
+  x2: 1,
+  y2: 1,
+  colorStops: [{
+    offset: 0,
+    color: 'rgba(51,192,205,0.01)', // 0% 处的颜色
+  },
+  {
+    offset: 1,
+    color: 'rgba(51,192,205,0.57)', // 100% 处的颜色
+  },
+  ],
+  globalCoord: false, // 缺省为 false
+},
+{
+  type: 'linear',
+  x: 1,
+  y: 0,
+  x2: 0,
+  y2: 1,
+  colorStops: [{
+    offset: 0,
+    color: 'rgba(115,172,255,0.02)', // 0% 处的颜色
+  },
+  {
+    offset: 1,
+    color: 'rgba(115,172,255,0.67)', // 100% 处的颜色
+  },
+  ],
+  globalCoord: false, // 缺省为 false
+},
+{
+  type: 'linear',
+  x: 1,
+  y: 0,
+  x2: 0,
+  y2: 0,
+  colorStops: [{
+    offset: 0,
+    color: 'rgba(158,135,255,0.02)', // 0% 处的颜色
+  },
+  {
+    offset: 1,
+    color: 'rgba(158,135,255,0.57)', // 100% 处的颜色
+  },
+  ],
+  globalCoord: false, // 缺省为 false
+},
+{
+  type: 'linear',
+  x: 0,
+  y: 1,
+  x2: 0,
+  y2: 0,
+  colorStops: [{
+    offset: 0,
+    color: 'rgba(252,75,75,0.01)', // 0% 处的颜色
+  },
+  {
+    offset: 1,
+    color: 'rgba(252,75,75,0.57)', // 100% 处的颜色
+  },
+  ],
+  globalCoord: false, // 缺省为 false
+},
+{
+  type: 'linear',
+  x: 1,
+  y: 1,
+  x2: 1,
+  y2: 0,
+  colorStops: [{
+    offset: 0,
+    color: 'rgba(253,138,106,0.01)', // 0% 处的颜色
+  },
+  {
+    offset: 1,
+    color: '#FDB36ac2', // 100% 处的颜色
+  },
+  ],
+  globalCoord: false, // 缺省为 false
+},
+{
+  type: 'linear',
+  x: 0,
+  y: 0,
+  x2: 1,
+  y2: 0,
+  colorStops: [{
+    offset: 0,
+    color: 'rgba(254,206,67,0.12)', // 0% 处的颜色
+  },
+  {
+    offset: 1,
+    color: '#FECE4391', // 100% 处的颜色
+  },
+  ],
+  globalCoord: false, // 缺省为 false
+},
+]
 const colorLine = ['#33C0CD', '#73ACFF', '#9E87FF', '#FE6969', '#FDB36A', '#FECE43']
 const data = [{
   name: '北京',
@@ -359,7 +474,7 @@ const chartPie = {
     },
     itemStyle: {
       color(params: { dataIndex: string | number }) {
-        return colorList[params.dataIndex]
+        return pieColorList[params.dataIndex]
       },
     },
     data,
@@ -388,7 +503,7 @@ function getRich() {
 
 <template>
   <BaseContent>
-    <div class="container q-pa-lg q-col-gutter-md">
+    <div class="q-pa-lg q-col-gutter-md">
       <div class="row justify-between q-col-gutter-md">
         <div class="col-xs-12 col-md-3 q-gutter-md">
           <q-card class="income">
@@ -398,9 +513,8 @@ function getRich() {
                   Income
                   <q-icon color="yellow" name="trending_up" />
                 </div>
-                <div class="text-h6 q-mt-sm q-mb-xs text-white">
-                  <CountTo :start-val="906584" :end-val="952765" :duration="1500" />
-                  ¥
+                <div class="text-h6 q-mt-sm q-mb-xs text-white" style="letter-spacing: normal">
+                  <CountTo :start-val="906585" :end-val="952765" :duration="1500" suffix=" ¥" />
                 </div>
               </q-card-section>
               <q-card-section class="col">
@@ -410,16 +524,15 @@ function getRich() {
               </q-card-section>
             </q-card-section>
           </q-card>
-          <q-card class="expense ">
+          <q-card class="expense">
             <q-card-section horizontal>
               <q-card-section class="col">
                 <div class="text-subtitle2 text-white">
                   Expense
                   <q-icon color="green" name="trending_down" />
                 </div>
-                <div class="text-h6 q-mt-sm q-mb-xs text-white">
-                  <countTo :start-val="400326" :end-val="439956" :duration="1500" />
-                  ¥
+                <div class="text-h6 q-mt-sm q-mb-xs text-white" style="letter-spacing: normal">
+                  <CountTo :start-val="400325" :end-val="439955" :duration="1500" suffix=" ¥" />
                 </div>
               </q-card-section>
               <q-card-section class="col">
@@ -436,9 +549,8 @@ function getRich() {
                   Total
                   <q-icon color="yellow" name="trending_up" />
                 </div>
-                <div class="text-h6 q-mt-sm q-mb-xs text-white">
-                  <countTo :start-val="706198" :end-val="756268" :duration="1500" />
-                  ¥
+                <div class="text-h6 q-mt-sm q-mb-xs text-white" style="letter-spacing: normal">
+                  <CountTo :start-val="706195" :end-val="756265" :duration="1500" suffix=" ¥" />
                 </div>
               </q-card-section>
               <q-card-section class="col">
@@ -471,6 +583,8 @@ function getRich() {
 <route lang="yaml">
 meta:
   layout: quasar
+  title: 首页
+  keepAlive: true
 </route>
 
 <style lang="css" scoped>
@@ -488,7 +602,6 @@ meta:
     font-size: 14px;
     padding: 11px 15px;
     font-weight: bold;
-    width: 100%;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     color: #ffffff;
