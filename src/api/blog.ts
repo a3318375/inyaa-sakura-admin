@@ -2,6 +2,7 @@ import { api } from '~/modules/axios'
 
 export const blogApi = {
   findTypeList: () => api.get('https://api.inyaw.com/inyaa-admin/type/list'),
+  getTypeInfo: (props: BlogInfo) => api.get('https://api.inyaw.com/inyaa-admin/type/info', { params: props }),
   findTagList: () => api.get('https://api.inyaw.com/inyaa-admin/tag/list'),
   findBlogListPage: (props: BlogParams) => api.get('https://api.inyaw.com/inyaa-admin/blog/list/page', { params: props }),
   getBlogInfo: (props: BlogParams) => api.get('https://api.inyaw.com/inyaa-admin/blog/info', { params: props }),

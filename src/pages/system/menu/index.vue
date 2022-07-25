@@ -2,12 +2,12 @@
 </script>
 
 <template>
-  <h1>11111111</h1>
+  111
 </template>
 
 <route lang="yaml">
 meta:
   layout: quasar
-  title: 博客分类
+  title: 菜单管理
   keepAlive: true
 </route>

@@ -10,3 +10,27 @@ export const columns = [
   { name: 'createTime', align: 'center', label: '发布时间', field: 'createTime', check: true, sortable: true },
   { name: 'btn', align: 'center', label: '操作', check: true, field: row => row.id },
 ]
+
+export const formColumns = [
+  {
+    field: 'title',
+    label: '标题',
+    fieldType: 0,
+    ruleType: 0,
+  },
+  {
+    field: 'article',
+    label: '文章',
+    fieldType: 1,
+  },
+  {
+    field: 'type',
+    label: '分类',
+    fieldType: 2,
+    apiConfig: {
+      url: '/test',
+      valueField: 'id',
+      labelField: 'name',
+    },
+  },
+]

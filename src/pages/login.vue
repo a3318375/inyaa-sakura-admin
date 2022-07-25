@@ -10,10 +10,10 @@ if (code) {
   window.localStorage.setItem('TOKEN_KEY', code)
   const redirect = route.query.redirect
   if (redirect)
-    router.push(redirect)
+    window.location.href = redirect
 
   else
-    router.push('/')
+    window.location.href = '/'
 
   const menuList = await sysApi.findMenuList()
   setMenuList(menuList.data as MenuListType[])
